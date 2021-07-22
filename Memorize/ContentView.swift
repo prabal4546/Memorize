@@ -52,10 +52,15 @@ struct CardView:View{
                 Text(card.content)
                     .foregroundColor(.black)
             }
+            else if card.isMatched{
+                RoundedRectangle(cornerRadius: 30)
+                    .opacity(0)
+            }
             else{
                 RoundedRectangle(cornerRadius: 30)
                     .fill()
             }
+            
 
         }
     }
