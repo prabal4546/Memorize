@@ -8,6 +8,7 @@
 import SwiftUI
 
 class EmojiMemoryGame:ObservableObject{
+    typealias Card = MemoryGame<String>.Card
     static let emojis = ["a","b","c","d","e","g","h"]
     
     static func createMemoryGame()->MemoryGame<String>{
@@ -17,7 +18,7 @@ class EmojiMemoryGame:ObservableObject{
     }
     @Published private var model:MemoryGame<String> = createMemoryGame()
     
-    var cards: Array<MemoryGame<String>.Card>{
+    var cards: Array<Card>{
        return model.cards
     }
     // MARK:- Intent

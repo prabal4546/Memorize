@@ -6,11 +6,19 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct MemoryGame<CardContent> where CardContent:Equatable{
     private(set) var cards:Array<Card>
     
-    private var indexOfOneAndOnlyOneFaceUpCard:Int?
+    private var indexOfOneAndOnlyOneFaceUpCard:Int?{
+        get{
+            let faceUpCardIndices = cards.indices.filter({ cards[$0].isFaceUp })
+            return faceUpCardIndices.oneAndOnly
+        }set{
+            cards.indices.forEach({ index in cards[index].isFaceUp = (index == newValue) })
+        }
+    }
     
     mutating func choose(_ card:Card){
 //        if let chosenIndex = index(of: card)
@@ -44,7 +52,7 @@ struct MemoryGame<CardContent> where CardContent:Equatable{
 //    }
     //init
     init(numberOfPairOfCards:Int, createCardContent:(Int)->CardContent) {
-        cards = Array<Card>()
+        cards = []
         //add numberOfPairOfCards x 2 cards to cards array
         for pairIndex in 0..<numberOfPairOfCards{
             let content = createCardContent(pairIndex)
@@ -57,5 +65,15 @@ struct MemoryGame<CardContent> where CardContent:Equatable{
         var isMatched:Bool = false
         var content:CardContent
         var id:Int
+    }
+}
+
+extension Array{
+    var oneAndOnly:Element?{
+        if count == 1{
+            return first
+        }else{
+            return nil
+        }
     }
 }
