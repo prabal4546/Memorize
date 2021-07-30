@@ -42,27 +42,30 @@ struct ContentView_Previews: PreviewProvider {
 struct CardView:View{
     let card:EmojiMemoryGame.Card
     var body:some View{
-        ZStack{
-            if card.isFaceUp{
-                RoundedRectangle(cornerRadius: 30)
-                    .fill()
-                    .foregroundColor(.white)
-                RoundedRectangle(cornerRadius: 30)
-                    .strokeBorder(lineWidth: 6)
-                Text(card.content)
-                    .foregroundColor(.black)
-            }
-            else if card.isMatched{
-                RoundedRectangle(cornerRadius: 30)
-                    .opacity(0)
-            }
-            else{
-                RoundedRectangle(cornerRadius: 30)
-                    .fill()
-            }
-            
+        GeometryReader(content: { geometry in
+            ZStack{
+                if card.isFaceUp{
+                    RoundedRectangle(cornerRadius: 30)
+                        .fill()
+                        .foregroundColor(.white)
+                    RoundedRectangle(cornerRadius: 30)
+                        .strokeBorder(lineWidth: 6)
+                    Text(card.content)
+                        .font(Font.system(size: min( geometry.size.width, geometry.size.height )))
+                        .foregroundColor(.black)
+                }
+                else if card.isMatched{
+                    RoundedRectangle(cornerRadius: 30)
+                        .opacity(0)
+                }
+                else{
+                    RoundedRectangle(cornerRadius: 30)
+                        .fill()
+                }
+                
 
-        }
+            }
+        })
     }
 }
 
