@@ -16,11 +16,15 @@ struct EmojiMemoryGameView: View {
 //                    ForEach(game.cards){card in
             
             AspectVGrid(items:game.cards, aspectRatio: 2/3, content:{card in
-                CardView(card: card)
-                    .padding(4)
-                    .onTapGesture {
-                        game.choose(card)
-                    }
+                if card.isMatched && !card.isFaceUp{
+                    Rectangle().opacity(0)
+                }else{
+                    CardView(card: card)
+                        .padding(4)
+                        .onTapGesture {
+                            game.choose(card)
+                        }
+                }
             })
                         
 //                    }
@@ -59,11 +63,11 @@ struct CardView:View{
                         .foregroundColor(.black)
                 }
                 else if card.isMatched{
-                    RoundedRectangle(cornerRadius: 30)
+                    RoundedRectangle(cornerRadius: 10)
                         .opacity(0)
                 }
                 else{
-                    RoundedRectangle(cornerRadius: 30)
+                    RoundedRectangle(cornerRadius: 10)
                         .fill()
                 }
                 
