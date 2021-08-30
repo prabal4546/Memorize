@@ -10,7 +10,6 @@ import SwiftUI
 struct EmojiMemoryGameView: View {
     @ObservedObject var game:EmojiMemoryGame
     var body: some View {
-        VStack {
             AspectVGrid(items:game.cards, aspectRatio: 2/3, content:{card in
                 if card.isMatched && !card.isFaceUp{
                     Rectangle().opacity(0)
@@ -25,7 +24,6 @@ struct EmojiMemoryGameView: View {
             .foregroundColor(.red)
             .padding(.horizontal)
 
-        }
     }
 }
 
@@ -42,32 +40,34 @@ struct ContentView_Previews: PreviewProvider {
 
 struct CardView:View{
     let card:EmojiMemoryGame.Card
-    var body:some View{
-        GeometryReader(content: { geometry in
-            ZStack{
-                if card.isFaceUp{
-                    RoundedRectangle(cornerRadius: 30)
-                        .fill()
-                        .foregroundColor(.white)
-                    RoundedRectangle(cornerRadius: 30)
-                        .strokeBorder(lineWidth: 6)
-                    Text(card.content)
-                        .font(Font.system(size: min( geometry.size.width, geometry.size.height )))
-                        .foregroundColor(.black)
+    var body: some View {
+            GeometryReader { geometry in
+                ZStack {
+                    let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
+                    
+                    if card.isFaceUp {
+                        shape.fill().foregroundColor(.white)
+                        shape.strokeBorder(lineWidth: DrawingConstants.lineWidth)
+                        Circle()
+                            .padding(5)
+                            .opacity(0.5)
+                        Text(card.content)
+                            .font(Memorize.font(in: geometry.size))
+                    } else if card.isMatched {
+                        shape.opacity(0)
+                    } else {
+                        shape.fill()
+                    }
                 }
-                else if card.isMatched{
-                    RoundedRectangle(cornerRadius: 10)
-                        .opacity(0)
-                }
-                else{
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill()
-                }
-                
-
             }
-        })
-    }
+    }}
+private func font(in size: CGSize) -> Font {
+    Font.system(size: min(size.width, size.height)*DrawingConstants.fontScale)
+}
+private struct DrawingConstants {
+    static let cornerRadius: CGFloat = 10
+    static let lineWidth: CGFloat = 3
+    static let fontScale: CGFloat = 0.7
 }
 
 

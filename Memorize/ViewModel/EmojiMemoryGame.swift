@@ -9,10 +9,11 @@ import SwiftUI
 
 class EmojiMemoryGame:ObservableObject{
     typealias Card = MemoryGame<String>.Card
-    static let emojis = ["a","b","c","d","e","g","h","a","b","c","d","e","g","h"]
+    static let emojis = ["🚑", "🚒", "🚐", "🛻", "🚛", "🚜", "🛺", "🚂",
+                         "🚟", "✈️", "🚞", "🚝", "🚲", "🚀", "🛸", "🚁", "⛵️", "🛴", "🛵"]
     
     static func createMemoryGame()->MemoryGame<String>{
-        MemoryGame<String>(numberOfPairOfCards: 8) { pairIndex in
+        MemoryGame<String>(numberOfPairOfCards: 4) { pairIndex in
             emojis[pairIndex]
         }
     }
