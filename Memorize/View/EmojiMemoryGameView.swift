@@ -48,7 +48,7 @@ struct CardView:View{
                     if card.isFaceUp {
                         shape.fill().foregroundColor(.white)
                         shape.strokeBorder(lineWidth: DrawingConstants.lineWidth)
-                        Circle()
+                        Pie(startAngle: Angle(degrees: 0-90), endAngle: Angle(degrees: 360-90), clockwise: false)
                             .padding(5)
                             .opacity(0.5)
                         Text(card.content)
