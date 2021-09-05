@@ -10,7 +10,8 @@ import SwiftUI
 struct EmojiMemoryGameView: View {
     @ObservedObject var game:EmojiMemoryGame
     var body: some View {
-            AspectVGrid(items:game.cards, aspectRatio: 2/3, content:{card in
+            VStack{
+                AspectVGrid(items:game.cards, aspectRatio: 2/3, content:{card in
                 if card.isMatched && !card.isFaceUp{
                     Rectangle().opacity(0)
                 }else{
@@ -23,6 +24,31 @@ struct EmojiMemoryGameView: View {
             })
             .foregroundColor(.red)
             .padding(.horizontal)
+                HStack{
+                        Image(systemName: "ellipsis.circle")
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                            .contextMenu(ContextMenu(menuItems: {
+                                Button{
+                                    //do something
+                                } label:{
+                                    Label("Vehicle", systemImage:"globe")
+                                }
+                                Button{
+                                    //do something
+                                } label:{
+                                    Label("Phone", systemImage:"camera")
+                                }
+                                Button{
+                                    //do something
+                                } label:{
+                                    Label("New", systemImage:"appletv")
+                                }
+                            }))
+                    Spacer()
+                    
+                }
+            }
 
     }
 }
@@ -43,26 +69,16 @@ struct CardView:View{
     var body: some View {
             GeometryReader { geometry in
                 ZStack {
-                    let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
-                    
-                    if card.isFaceUp {
-                        shape.fill().foregroundColor(.white)
-                        shape.strokeBorder(lineWidth: DrawingConstants.lineWidth)
-                        Circle()
+                        Pie(startAngle: Angle(degrees: 0-90), endAngle: Angle(degrees: 110-90))
                             .padding(5)
                             .opacity(0.5)
                         Text(card.content)
                             .font(Memorize.font(in: geometry.size))
-                    } else if card.isMatched {
-                        shape.opacity(0)
-                    } else {
-                        shape.fill()
-                    }
                 }
+                .cardify(isFaceUp: card.isFaceUp)
             }
-    }}
-private func font(in size: CGSize) -> Font {
-    Font.system(size: min(size.width, size.height)*DrawingConstants.fontScale)
+    }
+
 }
 private struct DrawingConstants {
     static let cornerRadius: CGFloat = 10
@@ -71,3 +87,6 @@ private struct DrawingConstants {
 }
 
 
+private func font(in size: CGSize) -> Font {
+   Font.system(size: min(size.width, size.height)*DrawingConstants.fontScale)
+}

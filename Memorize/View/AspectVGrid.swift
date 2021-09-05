@@ -3,7 +3,6 @@
 //  Memorize
 //
 //  Created by Prabaljit Walia on 03/08/21.
-//
 
 import SwiftUI
 
